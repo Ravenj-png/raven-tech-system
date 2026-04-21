@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SchoolHub | Complete System</title>
+  <style>
+    /* =========================================
+       BASE & RESET
+       ========================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fc;
+      padding: 24px;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .container {
+      max-width: 1450px;
+      margin: 0 auto;
+    }
+
+    /* =========================================
+       CARDS & TYPOGRAPHY
+       ========================================= */
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e5e7eb;
+      position: relative;
+    }
+
+    .login-box {
+      max-width: 480px;
+      margin: 60px auto;
+    }
+
+    h1 {
+      color: #1e40af;      text-align: center;
+      margin-bottom: 28px;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    h2 {
+      color: #1e40af;
+      margin-bottom: 22px;
+      font-size: 24px;
+      border-bottom: 3px solid #3b82f6;
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      color: #1e40af;
+      margin: 20px 0 14px 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    h4 {
+      color: #374151;
+      margin: 14px 0 10px 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* =========================================
+       FORMS & INPUTS
+       ========================================= */
+    input, select, textarea {
+      width: 100%;
+      padding: 13px 15px;
+      margin: 9px 0;
+      border: 2px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 15px;
+      background: #f9fafb;
+      transition: 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      background: #fff;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* =========================================
+       BUTTONS
+       ========================================= */
+    button {
+      padding: 11px 18px;
+      margin: 6px;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 44px;
+      type: button;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary { background: #3b82f6; color: #fff; }
+    .btn-danger  { background: #ef4444; color: #fff; }
+    .btn-success { background: #10b981; color: #fff; }
+    .btn-warning { background: #f59e0b; color: #fff; }
+    .btn-info    { background: #06b6d4; color: #fff; }
+    .btn-secondary { background: #64748b; color: #fff; }
+
+    /* =========================================
+       FILTERS & TABLES
+       ========================================= */
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .filter-chip {
+      padding: 9px 18px;
+      background: #f1f5f9;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      border: 2px solid #e2e8f0;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    .filter-chip.active {
+      background: #3b82f6;
+      color: #fff;
+      border-color: #3b82f6;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 16px;
+      margin: 18px 0;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 950px;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      text-align: left;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #1e40af;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    tr:hover td {
+      background: #fafbfc;
+    }
+
+    .actions-cell {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-start;
+      min-width: 340px;
+    }
+
+    .actions-cell button {
+      padding: 7px 12px;
+      font-size: 12px;
+      margin: 2px;
+      white-space: nowrap;
+      min-height: 36px;
+    }
+
+    /* =========================================
+       BADGES & GRADING COLORS
+       ========================================= */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 2px;
+    }
+
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-warning { background: #fed7aa; color: #9a3412; }
+
+    .pts-1 { background: #dcfce7; color: #166534; }
+    .pts-2 { background: #d1fae5; color: #065f46; }
+    .pts-3 { background: #fef9c3; color: #854d0e; }
+    .pts-4 { background: #fed7aa; color: #9a3412; }
+    .pts-5 { background: #fecaca; color: #991b1b; }
+    .pts-6 { background: #f3f4f6; color: #374151; }
+
+    .sub-1 { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+    .sub-0 { background: #f9fafb; color: #6b7280; border: 1px solid #d1d5db; }
+
+    /* =========================================
+       LAYOUT & COMPONENTS
+       ========================================= */
+    .profile-card {
+      background: linear-gradient(135deg, #f8fafc, #eff6ff);      padding: 22px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border-left: 5px solid #3b82f6;
+      border: 1px solid #e5e7eb;
+    }
+
+    .alert-card {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+      padding: 14px;
+      border-radius: 12px;
+      margin: 10px 0;
+    }
+
+    .result-card {
+      background: #f9fafb;
+      padding: 18px;
+      border-radius: 14px;
+      margin: 14px 0;
+      border: 1px solid #e5e7eb;
+    }
+
+    .marks-table {
+      width: 100%;
+      margin: 12px 0;
+      display: block;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+
+    .marks-table th, .marks-table td {
+      padding: 9px 6px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .flex { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .text-center { text-align: center; }
+    .error { color: #ef4444; margin-top: 6px; font-size: 13px; }
+    hr { margin: 20px 0; border-color: #e5e7eb; }
+
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.55); display: flex; align-items: center;
+      justify-content: center; z-index: 9999; padding: 12px;
+    }
+
+    .modal-content {      background: #fff; padding: 24px; border-radius: 20px;
+      max-width: 900px; width: 100%; max-height: 88vh;
+      overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    img { border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
+    .report-card { background: #f9fafb; padding: 14px; border-radius: 12px; margin: 8px; display: inline-block; min-width: 170px; border: 1px solid #e5e7eb; text-align: center; }
+    .announce-card { background: #f9fafb; padding: 14px; border-radius: 12px; margin: 10px 0; border: 1px solid #e5e7eb; border-left: 4px solid #06b6d4; }
+
+    /* =========================================
+       SUBJECT GRID
+       ========================================= */
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
+      max-height: 350px;
+      overflow-y: auto;
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 10px 0;
+    }
+
+    .subject-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px; background: #fff; border: 2px solid #e5e7eb;
+      border-radius: 10px; cursor: pointer; transition: 0.15s; font-size: 12px;
+    }
+
+    .subject-item:hover { border-color: #3b82f6; background: #f0f9ff; }
+    .subject-item.selected { background: #dbeafe; border-color: #3b82f6; }
+    .subject-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #3b82f6; }
+
+    /* =========================================
+       GRAPH
+       ========================================= */
+    .graph-container {
+      background: #fff; padding: 18px; border-radius: 16px;
+      border: 1px solid #e5e7eb; margin: 14px 0;
+    }
+
+    .graph-legend {
+      display: flex; gap: 16px; justify-content: center;
+      margin-top: 12px; flex-wrap: wrap;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
+    .legend-color { width: 20px; height: 3px; border-radius: 2px; }
+    /* =========================================
+       MOBILE & PRINT
+       ========================================= */
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .card { padding: 18px; margin-bottom: 16px; }
+      .login-box { margin: 24px auto; }
+      h1 { font-size: 26px; } h2 { font-size: 20px; } h3 { font-size: 18px; }
+      button { padding: 9px 14px; font-size: 13px; margin: 4px; }
+      .modal-content { padding: 16px; border-radius: 16px; }
+      table { font-size: 12px; } th, td { padding: 10px 8px; }
+      .subject-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); padding: 12px; }
+      .actions-cell button { padding: 6px 10px; font-size: 11px; }
+    }
+
+    @media print {
+      body { background: #fff !important; padding: 0 !important; }
+      .no-print, button, .wa-badge, .filters, .table-wrapper { display: none !important; }
+      .modal, .card { box-shadow: none !important; border: 1px solid #ccc !important; background: #fff !important; padding: 16px !important; }
+      .result-card, .report-card { border: 1px solid #bbb !important; break-inside: avoid; }
+      -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+
+    /* =========================================
+       FEATURES
+       ========================================= */
+    .wa-badge {
+      position: absolute; top: 18px; right: 18px;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: #25D366; color: #fff; display: flex;
+      align-items: center; justify-content: center; font-size: 18px;
+      cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      z-index: 20; text-decoration: none;
+    }
+    .wa-badge:hover { transform: scale(1.05); }
+
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #111827; color: #fff; padding: 12px 20px; border-radius: 24px;
+      font-size: 14px; z-index: 99999; box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      animation: toastIn 0.2s ease-out, toastOut 0.2s ease-in 2.6s forwards; pointer-events: none;
+    }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(14px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateX(-50%) translateY(14px); } }
+  </style>
+</head>
+<body>
+  <div class="container" id="app"></div>
+  <script>
+    (function() {
+      // =========================================
+      // DATA & CONFIG
+      // =========================================
+      var API_URL = 'http://localhost:5000/api';
+      var students = [], teachers = [], classTeachers = [], announcements = [];
+      var currentUser = null;
+      var currentFilter = "all";
+      var nextStudentId = 1001, nextTeacherId = 2001, nextCTId = 3001;
+      var currentPeriod = { year: new Date().getFullYear(), term: 1, phase: 'Beginning' };
+
+      var curriculum = {
+        oLevel: ['English Language', 'Literature in English', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Agriculture', 'Geography', 'History', 'CRE', 'IRE', 'French', 'German', 'Luganda', 'Swahili', 'Art & Design', 'Music', 'Physical Education', 'Computer Studies', 'Entrepreneurship', 'Food & Nutrition'],
+        aLevelPrincipals: ['General Paper', 'Mathematics (Pure)', 'Divinity', 'Sub-Mathematics', 'Physics', 'Chemistry', 'Biology', 'Geography', 'History', 'Economics','Literature', 'Entrepreneurship', 'CRE', 'IRE', 'Literature in English', 'French', 'ICT', 'Art & Design'],
+        aLevelSubsidiaries: ['General Paper (Sub)', 'ICT', 'Sub-Mathematics']
+      };
+
+      var predefinedCombos = {
+        'PCM': ['Physics', 'Chemistry', 'Mathematics (Pure)'],
+        'PCB': ['Physics', 'Chemistry', 'Biology'],
+        'HEAD':['History', 'Entrepreneurship', 'Art', 'Divinity'],
+        'MEG': ['Mathematics (Pure)', 'Economics', 'Geography'],
+        'HEG': ['History', 'Economics', 'Geography'],
+        'MEL': ['Mathematics (Pure)', 'Economics', 'Literature in English'],
+        'PEG': ['Physics', 'Economics', 'Geography'],
+        'BCM': ['Biology', 'Chemistry', 'Mathematics (Pure)'],
+        'MCE': ['Mathematics (Pure)', 'Chemistry', 'Economics']
+      };
+      var customCombos = {};
+
+      // =========================================
+      // UTILITIES & GRADING
+      // =========================================
+      window.escapeHtml = function(str) {
+        if (!str) return '';
+        var d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+      };
+
+      window.showToast = function(msg, type) {
+        type = type || 'info';
+        var t = document.createElement('div');
+        t.className = 'toast';
+        t.style.background = type === 'error' ? '#ef4444' : '#111827';
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, 2600);
+      };
+      window.getUCEPoints = function(m) {
+        m = parseInt(m) || 0;
+        if (m >= 80) return { pts: 1, grade: 'A', class: 'pts-1' };
+        if (m >= 70) return { pts: 2, grade: 'B', class: 'pts-2' };
+        if (m >= 60) return { pts: 3, grade: 'C', class: 'pts-3' };
+        if (m >= 50) return { pts: 4, grade: 'D', class: 'pts-4' };
+        if (m >= 40) return { pts: 5, grade: 'E', class: 'pts-5' };
+        return { pts: 6, grade: 'F', class: 'pts-6' };
+      };
+
+      window.getUACEPoints = function(m) {
+        m = parseInt(m) || 0;
+        if (m >= 80) return { pts: 6, grade: 'A', class: 'pts-1' };
+        if (m >= 70) return { pts: 5, grade: 'B', class: 'pts-2' };
+        if (m >= 60) return { pts: 4, grade: 'C', class: 'pts-3' };
+        if (m >= 50) return { pts: 3, grade: 'D', class: 'pts-4' };
+        if (m >= 45) return { pts: 2, grade: 'E', class: 'pts-5' };
+        return { pts: 0, grade: 'F', class: 'pts-6' };
+      };
+
+      window.getSubjectPoints = function(subject, marks) {
+        marks = parseInt(marks) || 0;
+        var isSub = false;
+        for (var i = 0; i < curriculum.aLevelSubsidiaries.length; i++) {
+          if (curriculum.aLevelSubsidiaries[i] === subject) { isSub = true; break; }
+        }
+        if (!isSub) return window.getUCEPoints(marks);
+        return marks >= 60 ? { pts: 1, grade: 'Pass', class: 'sub-1' } : { pts: 0, grade: 'Fail', class: 'sub-0' };
+      };
+
+      window.getStudentSubjects = function(s) {
+        if (!s || !s.class) return [];
+        if (s.class === 'Senior 5' || s.class === 'Senior 6') {
+          var pr = [];
+          if (predefinedCombos[s.combination]) pr = predefinedCombos[s.combination].slice();
+          else if (customCombos[s.combination]) pr = customCombos[s.combination].slice();
+          else pr = ['Principal 1', 'Principal 2', 'Principal 3'];
+          return pr.concat(s.subsidiaries || []);
+        }
+        return s.subjects || curriculum.oLevel.slice();
+      };
+
+      window.calculateSubsidiaries = function(principals) {
+        var hasEcon = false, hasMath = false;
+        for (var i = 0; i < principals.length; i++) {
+          var p = principals[i].toLowerCase();
+          if (p.indexOf('econ') > -1) hasEcon = true;
+          if (p.indexOf('math') > -1) hasMath = true;
+        }        if (hasEcon && hasMath) return ['General Paper (Sub)', 'ICT'];
+        if (hasEcon && !hasMath) return ['General Paper (Sub)', 'Sub-Mathematics'];
+        return ['General Paper (Sub)', 'ICT'];
+      };
+
+      // ASCII Report Generator
+      window.generateASCIIReport = function(student, result) {
+        var s = student, r = result; var lines = [];
+        var pad = function(str, len, ch) { ch = ch || ' '; str = str + ''; while (str.length < len) str = ch + str; return str; };
+        var center = function(str, len) { str = str + ''; var padLen = Math.floor((len - str.length) / 2); return Array(padLen + 1).join(' ') + str; };
+        var border = '═'.repeat(75), subBorder = '─'.repeat(75);
+        lines.push(border); lines.push(center('RAVEN SYSTEMS', 75)); lines.push(center('STUDENT ACADEMIC REPORT', 75)); lines.push(border); lines.push('');
+        lines.push('STUDENT INFORMATION'); lines.push(subBorder);
+        lines.push('Full Name:        ' + (s.name || '')); lines.push('Student ID:       STU-' + String(s.id || '').padStart(6, '0'));
+        lines.push('Class:            ' + (s.class || '') + (s.combination ? ' (' + s.combination + ')' : ''));
+        lines.push('Phone:            ' + (s.phone || 'N/A')); lines.push('Admission Date:   ' + (s.joinDate || 'N/A')); lines.push('');
+        lines.push('TERM INFORMATION'); lines.push(subBorder);
+        lines.push('Term:             Term ' + (r ? r.term : currentPeriod.term)); lines.push('Year:             ' + (r ? r.year : currentPeriod.year));
+        lines.push('Exam Type:        End of Term'); lines.push('Report Generated: ' + new Date().toLocaleString()); lines.push('');
+        lines.push(subBorder); lines.push('SUBJECT PERFORMANCE'); lines.push(subBorder); lines.push('');
+        lines.push('    SUBJECT              TEACHER          PAPER 1    PAPER 2    TOTAL    GRADE'); lines.push('    ' + '─'.repeat(68));
+        var subjects = r ? r.marks : window.getStudentSubjects(s).map(sub => ({ subject: sub, marks: 0, grade: '-', points: 0 }));
+        for (var i = 0; i < subjects.length; i++) {
+          var m = subjects[i]; var subj = m.subject.length > 20 ? m.subject.substring(0,17) + '...' : pad(m.subject, 20);
+          var teacher = 'Mr./Ms. ___', p1 = m.paper1 != null ? pad(m.paper1, 5) + '/50' : '   -  ', p2 = m.paper2 != null ? pad(m.paper2, 5) + '/50' : '   -  ';
+          var total = m.marks != null ? pad(m.marks, 5) + '/100' : '   -  ', grade = m.grade || '-';
+          lines.push('    ' + subj + '  ' + pad(teacher, 15) + '  ' + p1 + '    ' + p2 + '    ' + total + '     ' + grade);
+        } lines.push(''); lines.push(subBorder); lines.push('SUMMARY'); lines.push(subBorder);
+        var totalMarks = r ? r.totalMarks || 0 : 0, maxMarks = subjects.length * 100;
+        var percentage = maxMarks > 0 ? ((totalMarks / maxMarks) * 100).toFixed(1) : '0.0';
+        var overallGrade = window.getUCEPoints(parseFloat(percentage)).grade, division = '';
+        if (percentage >= 75) division = 'I'; else if (percentage >= 65) division = 'II'; else if (percentage >= 50) division = 'III'; else if (percentage >= 40) division = 'IV'; else division = 'U';
+        lines.push('Total Marks Obtained:              ' + totalMarks); lines.push('Total Marks Possible:              ' + maxMarks);
+        lines.push('Percentage:                        ' + percentage + '%'); lines.push('Overall Grade:                     ' + overallGrade);
+        lines.push('Division:                          ' + division); lines.push('Position in Class:                 ' + (r && r.position ? r.position + ' / ' + (r.classSize || 'N/A') : 'N/A')); lines.push('');
+        lines.push(subBorder); lines.push('TEACHER COMMENTS'); lines.push(subBorder);
+        for (var i = 0; i < subjects.length; i++) { var m = subjects[i]; lines.push(m.subject + ':  Good effort, keep improving!'); } lines.push('');
+        lines.push(subBorder); lines.push('CLASS TEACHER:        Mr./Ms. _______________'); lines.push('CLASS TEACHER SIGN:   ___________________'); lines.push('');
+        lines.push('PRINCIPAL:            Mr./Ms. _______________'); lines.push('PRINCIPAL SIGN:       ___________________'); lines.push('');
+        lines.push('SCHOOL STAMP:         [                    ]'); lines.push(''); lines.push(border);
+        lines.push(center('This is a computer-generated report.', 75)); lines.push(center('No signature required if printed digitally.', 75)); lines.push(border);
+        return lines.join('\n');
+      };
+
+      // =========================================
+      // STORAGE & BACKEND SYNC
+      // =========================================
+      function safeSave() {
+        try {
+          localStorage.setItem('sh_st', JSON.stringify(students));          localStorage.setItem('sh_tch', JSON.stringify(teachers));
+          localStorage.setItem('sh_ct', JSON.stringify(classTeachers));
+          localStorage.setItem('sh_an', JSON.stringify(announcements));
+          localStorage.setItem('sh_id', nextStudentId);
+          localStorage.setItem('sh_tid', nextTeacherId);
+          localStorage.setItem('sh_ctid', nextCTId);
+          localStorage.setItem('sh_pd', JSON.stringify(currentPeriod));
+          localStorage.setItem('sh_cc', JSON.stringify(customCombos));
+        } catch (e) { showToast("⚠️ Storage full/restricted", "error"); }
+      }
+
+      function safeLoad() {
+        try {
+          var a = localStorage.getItem('sh_st'), b = localStorage.getItem('sh_an'),
+              c = localStorage.getItem('sh_id'), d = localStorage.getItem('sh_pd'),
+              e = localStorage.getItem('sh_cc'), f = localStorage.getItem('sh_tch'),
+              g = localStorage.getItem('sh_ct'), h = localStorage.getItem('sh_tid'),
+              i = localStorage.getItem('sh_ctid');
+          if (a) students = JSON.parse(a);
+          if (b) announcements = JSON.parse(b);
+          if (c) nextStudentId = parseInt(c);
+          if (d) currentPeriod = JSON.parse(d);
+          if (e) customCombos = JSON.parse(e);
+          if (f) teachers = JSON.parse(f); else teachers = [];
+          if (g) classTeachers = JSON.parse(g); else classTeachers = [];
+          if (h) nextTeacherId = parseInt(h);
+          if (i) nextCTId = parseInt(i);
+          if (!students || !students.length) students = [];
+          if (!announcements || !announcements.length) announcements = [];
+          for (var i = 0; i < students.length; i++) {
+            var s = students[i];
+            if (!s.results) s.results = [];
+            if (!s.reports) s.reports = [];
+            if (!s.alerts) s.alerts = [];
+            if (!s.joinDate) s.joinDate = new Date().toISOString().slice(0, 10);
+            if (!s.image) s.image = "";
+            if (!s.subjects) s.subjects = [];
+            if (!s.subsidiaries) s.subsidiaries = [];
+            if (!s.combination) s.combination = "";
+            if (s.isCandidate === undefined) s.isCandidate = (s.class === 'Senior 4' || s.class === 'Senior 6');
+          }
+          safeSave();
+        } catch (ex) { showToast("⚠️ Data reset", "error"); students = []; announcements = []; }
+      }
+
+      // 🔹 Non-blocking sync (never stops UI)
+      window.syncFromBackend = async function() {
+        var tok = localStorage.getItem('sh_token');
+        if (!tok) return;
+        try {          var res = await fetch(API_URL + '/sync', { headers: { 'Authorization': 'Bearer ' + tok } });
+          if (res.ok) {
+            var d = await res.json();
+            students = d.students || students;
+            teachers = d.teachers || teachers;
+            classTeachers = d.classTeachers || classTeachers;
+            announcements = d.announcements || announcements;
+            safeSave();
+            location.reload();
+          }
+        } catch(e) { console.warn('Sync skipped (backend offline):', e); }
+      };
+	  // =========================================
+      // CORE ACTIONS & AUTH
+      // =========================================
+      window.promoteStudents = function() {
+        if (!confirm('⚠️ Promote students?\nS4→S5 (subjects reset)\nS6→Alumni\nContinue?')) return;
+        var p = 0;
+        for (var i = 0; i < students.length; i++) {
+          var s = students[i];
+          if (s.class === 'Senior 6') { s.class = 'Alumni'; p++; }
+          else if (s.class === 'Senior 5') { s.class = 'Senior 6'; p++; }
+          else if (s.class === 'Senior 4') { s.class = 'Senior 5'; s.subjects = []; s.combination = ''; p++; }
+          else if (s.class === 'Senior 3') { s.class = 'Senior 4'; s.isCandidate = true; p++; }
+          else if (s.class === 'Senior 2') { s.class = 'Senior 3'; p++; }
+          else if (s.class === 'Senior 1') { s.class = 'Senior 2'; p++; }
+        }
+        currentPeriod = { year: currentPeriod.year + 1, term: 1, phase: 'Beginning' };
+        safeSave(); renderStudents('stab'); showToast('✅ Promoted: ' + p);
+      };
+
+      window.advanceTerm = function() {
+        var ph = ['Beginning', 'Mid', 'End'], idx = -1;
+        for (var i = 0; i < ph.length; i++) if (ph[i] === currentPeriod.phase) idx = i;
+        if (idx < 2) currentPeriod.phase = ph[idx + 1];
+        else if (currentPeriod.term < 3) { currentPeriod.term++; currentPeriod.phase = 'Beginning'; }
+        else { showToast("New year requires Promote button", "error"); return; }
+        safeSave(); showToast('✅ ' + currentPeriod.phase + ' • Term ' + currentPeriod.term);
+      };
+
+      function addBadge(id) {
+        var c = document.getElementById(id);
+        if (!c || document.getElementById('wa')) return;
+        var a = document.createElement('a'); a.id = 'wa'; a.className = 'wa-badge';
+        a.href = 'https://wa.me/256741227707'; a.target = '_blank'; a.innerHTML = '💬';
+        c.appendChild(a);
+      }
+
+      window.forgotPwd = function() {
+        var p = prompt('Enter phone number:'); if (!p) return;
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].phone === p) s = students[i];
+        if (!s) { showToast('Not found', 'error'); return; }
+        var n = prompt('New password (min 4 chars):'); if (!n || n.length < 4) return;
+        s.password = n; safeSave(); showToast('✅ Password reset');
+      };
+      window.logout = function() { 
+        localStorage.removeItem('sh_token'); 
+        localStorage.removeItem('sh_user'); 
+        currentUser = null; 
+        showLogin(); 
+      };
+      function showLogin() {
+        // ✅ Render UI immediately
+        document.getElementById('app').innerHTML = '<div class="login-box"><div class="card" id="loginCard"><h1>🎓 SchoolHub</h1><h2>Student Login</h2><input type="text" id="lPh" placeholder="Phone Number"><input type="password" id="lPwd" placeholder="Password"><button id="lBtn" class="btn-primary" style="width:100%" type="button">Login to Account</button><div class="text-center" style="margin:10px 0"><button class="btn-warning" type="button" onclick="window.forgotPwd()">Forgot Password?</button></div><div id="lErr" class="error"></div><hr><h2>Staff Login</h2><select id="staffRole" style="width:100%"><option value="admin">Admin</option><option value="dos">DOS</option><option value="teacher">Teacher</option><option value="classTeacher">Class Teacher</option></select><input type="text" id="sEm" placeholder="Email/Username"><input type="password" id="sPwd" placeholder="Password"><button id="sBtn" class="btn-primary" style="width:100%" type="button">Staff Login</button><div id="sErr" class="error"></div></div></div>';
+        addBadge('loginCard');
+        document.getElementById('lBtn').onclick = window.studentLogin;
+        document.getElementById('sBtn').onclick = window.staffLogin;
+
+        // ✅ Sync runs in background only
+        if (localStorage.getItem('sh_token')) { window.syncFromBackend(); }
+      }
+
+      window.studentLogin = async function() {
+        var p = document.getElementById('lPh').value.trim(), w = document.getElementById('lPwd').value;
+        try {
+          var res = await fetch(API_URL + '/login', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ role: 'student', identifier: p, password: w })
+          });
+          var d = await res.json();
+          if (res.ok) {
+            localStorage.setItem('sh_token', d.token);
+            localStorage.setItem('sh_user', JSON.stringify(d.user));
+            currentUser = { role: 'student', data: d.user };
+            showToast('✅ Login successful');
+            showStudentDash();
+          } else {
+            document.getElementById('lErr').innerHTML = '❌ ' + (d.error || 'Login failed');
+          }
+        } catch(e) { document.getElementById('lErr').innerHTML = '❌ Server offline'; }
+      };
+
+      window.staffLogin = async function() {
+        var r = document.getElementById('staffRole').value, e = document.getElementById('sEm').value.trim(), w = document.getElementById('sPwd').value;
+        try {
+          var res = await fetch(API_URL + '/login', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ role: r, identifier: e, password: w })
+          });
+          var d = await res.json();
+          if (res.ok) {
+            localStorage.setItem('sh_token', d.token);
+            localStorage.setItem('sh_user', JSON.stringify(d.user));
+            currentUser = { role: r, data: d.user };
+            showToast('✅ Login successful');
+            if (r === 'admin') showAdminDash();
+            else if (r === 'dos') showDOSDash();
+            else if (r === 'teacher') showTeacherDash();
+            else showClassTeacherDash();
+          } else {
+            document.getElementById('sErr').innerHTML = '❌ ' + (d.error || 'Invalid credentials');          }
+        } catch(e) { document.getElementById('sErr').innerHTML = '❌ Server offline'; }
+      };
+
+      // 🔹 DOS DASHBOARD & STAFF MANAGEMENT
+      function showDOSDash() {
+        document.getElementById('app').innerHTML = '<div class="card" id="dosCard"><div class="flex-between"><h2>🎓 DOS Panel</h2><button onclick="window.logout()" class="btn-danger" type="button">🚪 Logout</button></div><div class="flex"><button onclick="window.addTeacher()" class="btn-success" type="button">➕ Add Teacher</button><button onclick="window.addClassTeacher()" class="btn-info" type="button">➕ Add Class Teacher</button></div><div class="table-wrapper" id="dosStab"></div></div>';
+        addBadge('dosCard'); renderDOSTeachers();
+      }
+
+      function renderDOSTeachers() {
+        var el = document.getElementById('dosStab'); if (!el) return;
+        if (!teachers.length && !classTeachers.length) { el.innerHTML = '<div class="text-center" style="padding:32px">📭 No staff added yet.</div>'; return; }
+        var h = '<table><thead><tr><th>ID</th><th>Role</th><th>Name</th><th>Subjects / Assigned Class</th><th>Actions</th></tr></thead><tbody>';
+        for (var i = 0; i < teachers.length; i++) {
+          var t = teachers[i];
+          h += '<tr><td>' + t.id + '</td><td><span class="badge badge-success">👨‍🏫 Teacher</span></td><td>' + window.escapeHtml(t.name) + '</td><td>' + (t.subjects.length ? t.subjects.join(', ') : 'None') + '</td><td><button onclick="window.delTeacher(' + t.id + ')" class="btn-danger" type="button">🗑️ Remove</button></td></tr>';
+        }
+        for (var j = 0; j < classTeachers.length; j++) {
+          var c = classTeachers[j];
+          h += '<tr><td>' + c.id + '</td><td><span class="badge badge-warning">👩‍🏫 Class Teacher</span></td><td>' + window.escapeHtml(c.name) + '</td><td>' + c.assignedClass + '</td><td><button onclick="window.delCT(' + c.id + ')" class="btn-danger" type="button">🗑️ Remove</button></td></tr>';
+        }
+        h += '</tbody></table>'; el.innerHTML = h;
+      }
+
+      window.addTeacher = function() {
+        var m = document.createElement('div'); m.className = 'modal';
+        m.innerHTML = '<div class="modal-content"><h3>➕ Add Teacher</h3><input id="tchName" placeholder="Full Name"><h4 style="margin:10px 0 6px">Select Subjects (Hold Ctrl/Cmd)</h4><select id="tchSubs" multiple style="height:120px;padding:6px"><option>Mathematics</option><option>English Language</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Geography</option><option>History</option><option>CRE</option><option>Agriculture</option><option>Computer Studies</option><option>Literature in English</option><option>Economics</option><option>ICT</option><option>Art & Design</option></select><div class="flex" style="margin-top:12px"><button id="tchSave" class="btn-success" type="button">✅ Save</button><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Cancel</button></div></div>';
+        document.body.appendChild(m);
+        document.getElementById('tchSave').onclick = function() {
+          var name = document.getElementById('tchName').value.trim();
+          if (!name) { showToast('Name required', 'error'); return; }
+          var sel = document.getElementById('tchSubs').selectedOptions;
+          var subs = []; for (var i = 0; i < sel.length; i++) subs.push(sel[i].value);
+          teachers.push({ id: nextTeacherId++, name: name, subjects: subs });
+          safeSave(); m.remove(); renderDOSTeachers(); showToast('✅ Teacher added');
+        };
+      };
+
+      window.addClassTeacher = function() {
+        var m = document.createElement('div'); m.className = 'modal';
+        m.innerHTML = '<div class="modal-content"><h3>➕ Add Class Teacher</h3><input id="ctName" placeholder="Full Name"><select id="ctClass"><option value="">-- Assign Class --</option><option>Senior 1</option><option>Senior 2</option><option>Senior 3</option><option>Senior 4</option><option>Senior 5</option><option>Senior 6</option></select><div class="flex" style="margin-top:12px"><button id="ctSave" class="btn-success" type="button">✅ Save</button><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Cancel</button></div></div>';
+        document.body.appendChild(m);
+        document.getElementById('ctSave').onclick = function() {
+          var name = document.getElementById('ctName').value.trim();
+          var cls = document.getElementById('ctClass').value;
+          if (!name || !cls) { showToast('Fill all fields', 'error'); return; }
+          classTeachers.push({ id: nextCTId++, name: name, assignedClass: cls });
+          safeSave(); m.remove(); renderDOSTeachers(); showToast('✅ Class Teacher added');
+        };      };
+
+      window.delTeacher = function(id) { if (confirm('Remove this teacher?')) { teachers = teachers.filter(t => t.id !== id); safeSave(); renderDOSTeachers(); showToast('✅ Removed'); } };
+      window.delCT = function(id) { if (confirm('Remove this class teacher?')) { classTeachers = classTeachers.filter(c => c.id !== id); safeSave(); renderDOSTeachers(); showToast('✅ Removed'); } };
+
+      // 🔹 TEACHER & CLASS TEACHER DASHBOARDS
+      function showTeacherDash() {
+        document.getElementById('app').innerHTML = '<div class="card" id="tchCard"><div class="flex-between"><h2>👨‍🏫 Teacher Dashboard</h2><button onclick="window.logout()" class="btn-danger" type="button">🚪 Logout</button></div><div class="flex"><button onclick="window.enterMarks()" class="btn-primary" type="button">📝 Enter Marks</button></div><div class="filters" id="tchFilt"></div><div class="table-wrapper" id="tchStab"></div></div>';
+        addBadge('tchCard'); renderFilters('tchFilt'); renderStudents('tchStab');
+      }
+
+      function showClassTeacherDash() {
+        document.getElementById('app').innerHTML = '<div class="card" id="ctCard"><div class="flex-between"><h2>👩‍ Class Teacher</h2><button onclick="window.logout()" class="btn-danger" type="button">🚪 Logout</button></div><div class="flex"><button onclick="window.addStudent()" class="btn-success" type="button">➕ Add Student</button><button onclick="window.enterMarks()" class="btn-primary" type="button">📝 Give Marks</button></div><div class="filters" id="ctFilt"></div><div class="table-wrapper" id="ctStab"></div></div>';
+        addBadge('ctCard'); renderFilters('ctFilt'); renderStudents('ctStab');
+      }
+
+      // 🔹 UNIVERSAL STUDENT TABLE RENDERER
+      function renderStudents(containerId) {
+        var el = document.getElementById(containerId); if (!el) return;
+        var q = document.getElementById('srch') ? document.getElementById('srch').value.toLowerCase() : '';
+        var st = students.filter(s => (currentFilter === 'all' || s.class === currentFilter) && (s.name.toLowerCase().indexOf(q) > -1 || (s.phone || '').indexOf(q) > -1));
+        if (!st.length) { el.innerHTML = '<div class="text-center" style="padding:32px">🔍 No students found</div>'; return; }
+        var h = '<table><thead><tr><th>ID</th><th>Photo</th><th>Name</th><th>Phone</th><th>Class</th><th>Combo</th><th>Candidate</th><th>Actions</th></tr></thead><tbody>';
+        for (var i = 0; i < st.length; i++) {
+          var s = st[i], img = s.image ? '<img src="' + s.image + '" style="width:34px;height:34px">' : '📷',
+              com = ((s.class === 'Senior 5' || s.class === 'Senior 6') && s.combination) ? s.combination : '—',
+              cand = s.isCandidate ? '<span class="badge badge-warning">🎓 Yes</span>' : '<span class="badge badge-success">✅ No</span>';
+          h += '<tr><td>' + s.id + '</td><td>' + img + '</td><td><strong>' + window.escapeHtml(s.name) + '</strong></td><td>' + window.escapeHtml(s.phone) + '</td><td>' + s.class + '</td><td>' + com + '</td><td>' + cand + '</td><td class="actions-cell"><button onclick="window.viewReport(' + s.id + ')" class="btn-info" type="button">👁️ Profile</button><button onclick="window.showGraph(' + s.id + ')" class="btn-warning" type="button">📈 Graph</button><button onclick="window.editSt(' + s.id + ')" type="button">✏️ Edit</button><button onclick="window.delSt(' + s.id + ')" class="btn-danger" type="button">🗑️ Delete</button><button onclick="window.viewResults(' + s.id + ')" class="btn-success" type="button">📊 Results</button><button onclick="window.viewReps(' + s.id + ')" class="btn-info" type="button">📄 Reports</button><button onclick="window.generateReport(' + s.id + ')" class="btn-warning" type="button">📄 Generate Report</button><button onclick="window.alertSt(' + s.id + ')" class="btn-secondary" type="button">🚨 Alert</button><button onclick="window.uploadImg(' + s.id + ')" type="button">📷 Photo</button></td></tr>';
+        }
+        h += '</tbody></table>'; el.innerHTML = h;
+      }
+
+      function renderFilters(filterId) {
+        var c = ['all', 'Senior 1', 'Senior 2', 'Senior 3', 'Senior 4', 'Senior 5', 'Senior 6'], h = '';
+        for (var i = 0; i < c.length; i++) { var x = c[i], act = currentFilter === x ? 'active' : ''; h += '<div class="filter-chip ' + act + '" onclick="window.setFilter(\'' + x + '\')">' + (x === 'all' ? '📚 All' : x) + '</div>'; }
+        var el = document.getElementById(filterId); if (el) el.innerHTML = h;
+      }
+      window.setFilter = function(f) { currentFilter = f; renderFilters('filt'); renderFilters('dosFilt'); renderFilters('tchFilt'); renderFilters('ctFilt'); renderStudents('stab'); renderStudents('dosStab'); renderStudents('tchStab'); renderStudents('ctStab'); };
+
+      function showAdminDash() {
+        document.getElementById('app').innerHTML = '<div class="card" id="adminCard"><div class="flex-between"><h2>👑 Admin Panel</h2><button onclick="window.logout()" class="btn-danger" type="button">🚪 Logout</button></div><div class="flex"><button onclick="window.addStudent()" class="btn-success" type="button">➕ Add New Student</button><button onclick="window.enterMarks()" class="btn-primary" type="button">📝 Enter Subject Marks</button><button onclick="window.promoteStudents()" class="btn-warning" type="button">🎓 Promote Classes</button><button onclick="window.advanceTerm()" class="btn-info" type="button">🔄 Advance Term</button><button onclick="window.csvImport()" class="btn-secondary" type="button">📥 Import CSV</button><button onclick="window.csvExport()" class="btn-secondary" type="button">📤 Export CSV</button></div><div class="filters" id="filt"></div><input type="text" id="srch" placeholder="🔍 Search by Name or Phone..."><div class="table-wrapper" id="stab"></div><div class="card"><h3>📢 Post Announcement</h3><select id="ac"><option value="all">🌍 All Classes</option><option>Senior 1</option><option>Senior 2</option><option>Senior 3</option><option>Senior 4</option><option>Senior 5</option><option>Senior 6</option></select><input id="at" placeholder="Announcement Title"><textarea id="ab" rows="2" placeholder="Write message here..."></textarea><button onclick="window.postAnn()" class="btn-primary" type="button">📤 Publish</button></div><div id="anl"></div></div>';
+        addBadge('adminCard'); renderFilters('filt'); renderStudents('stab'); renderAnn(); 
+        document.getElementById('srch').oninput = function() { renderStudents('stab'); renderStudents('dosStab'); renderStudents('tchStab'); renderStudents('ctStab'); };
+      }
+
+      // 🔹 PROFILE & REPORTS (CRASH-PROOF)
+      window.viewReport = function(id) {
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id === id) { s = students[i]; break; }
+        if (!s) { showToast('❌ Student not found', 'error'); return; }
+        var imgHtml = s.image ? '<img src="' + s.image + '" style="width:60px;height:60px">' : '<div style="width:60px;height:60px;background:#e5e7eb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px">👤</div>';        var resHtml = '';
+        if (s.results && s.results.length) {
+          var rec = s.results.slice().reverse().slice(0, 3);
+          for (var j = 0; j < rec.length; j++) { var r = rec[j], cl = r.points <= 2 ? 'pts-1' : r.points <= 3 ? 'pts-2' : r.points <= 4 ? 'pts-3' : 'pts-5'; resHtml += '<div class="result-card" style="margin-bottom:8px"><div class="flex-between"><strong>' + r.phase + ' • T' + r.term + ' (' + r.year + ')</strong><span class="badge ' + cl + '">' + r.points + 'pts</span></div><p>Avg: ' + (r.average || 0) + '% | Pos: ' + (r.position || 'N/A') + '</p></div>'; }
+        } else resHtml = '<div class="result-card">📭 No results recorded yet</div>';
+        var h = '<h3>👁️ Student Profile</h3><div class="profile-card"><div class="flex">' + imgHtml + '<div><strong>🆔 #' + s.id + '</strong><br>👤 ' + window.escapeHtml(s.name) + '<br>📞 ' + window.escapeHtml(s.phone || 'N/A') + '<br>📚 ' + s.class + (s.combination ? ' (' + s.combination + ')' : '') + '<br>📅 Joined: ' + (s.joinDate || 'N/A') + '</div></div></div><h3 style="margin-top:16px">📊 Recent Results</h3>' + resHtml + '<div class="flex" style="margin-top:16px;flex-wrap:wrap"><button onclick="window.generateReport(' + s.id + ')" class="btn-success" type="button">📥 Generate Report</button><button onclick="window.viewResults(' + s.id + ')" class="btn-info" type="button">📜 Full History</button><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Close</button></div>';
+        var m = document.createElement('div'); m.className = 'modal'; m.innerHTML = '<div class="modal-content" style="max-width:500px">' + h + '</div>'; document.body.appendChild(m);
+      };
+
+      window.generateReport = function(id) {
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id === id) { s = students[i]; break; }
+        if (!s) { showToast('❌ Student not found', 'error'); return; }
+        var m = document.createElement('div'); m.className = 'modal';
+        m.innerHTML = '<div class="modal-content" style="max-width:400px"><h3>📄 Generate Report</h3><p style="color:#64748b;font-size:13px;margin:8px 0">For: <strong>' + window.escapeHtml(s.name) + '</strong> (' + s.class + ')</p><div class="flex" style="margin:12px 0;flex-direction:column;gap:8px"><button id="btnAscii" class="btn-success" type="button">📥 Download ASCII/PDF Report</button><button id="btnCsv" class="btn-info" type="button">📥 Download CSV Report</button></div><div class="text-center"><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Close</button></div></div>';
+        document.body.appendChild(m);
+        document.getElementById('btnAscii').onclick = function() { m.remove(); downloadReport(s, 'ascii'); };
+        document.getElementById('btnCsv').onclick = function() { m.remove(); downloadReport(s, 'csv'); };
+      };
+
+      window.downloadReport = function(student, format) {
+        if (!student) { showToast('❌ Student data missing', 'error'); return; }
+        format = format || 'ascii';
+        var result = (student.results && student.results.length) ? student.results[student.results.length - 1] : null;
+        try {
+          if (format === 'csv') {
+            var subjects = result ? result.marks : window.getStudentSubjects(student).map(sub => ({ subject: sub, marks: 0, grade: '-' }));
+            var csv = 'Subject,Teacher,Paper1,Paper2,Total,Grade,Points\n';
+            for (var i = 0; i < subjects.length; i++) { var m = subjects[i]; var pts = window.getSubjectPoints(m.subject, m.marks || 0).pts; csv += '"' + m.subject + '","Mr./Ms. ___",' + (m.paper1||'-') + ',' + (m.paper2||'-') + ',' + (m.marks||0) + ',"' + (m.grade||'-') + '",' + pts + '\n'; }
+            var total = result ? result.totalMarks : 0, avg = result ? result.average : 0;
+            csv += '\n"SUMMARY","Total Marks: ' + total + '",,"Average: ' + avg + '%"';
+            var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); var url = URL.createObjectURL(blob); var a = document.createElement('a');
+            a.href = url; a.download = 'report_' + student.name.replace(/\s+/g, '_') + '_' + new Date().toISOString().slice(0,10) + '.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+            showToast('✅ CSV downloaded successfully');
+          } else {
+            var ascii = window.generateASCIIReport(student, result);
+            var html = '<!DOCTYPE html><html><head><title>Report - ' + window.escapeHtml(student.name) + '</title><style>body{font-family:monospace;white-space:pre;font-size:10pt;line-height:1.15;color:#000;margin:20mm}@media print{body{margin:10mm}@page{margin:10mm;size:A4}}</style></head><body>' + window.escapeHtml(ascii) + '<script>window.onload=function(){setTimeout(function(){window.print()},500)};<\/script></body></html>';
+            var w = window.open('', '_blank', 'width=850,height=950');
+            if (w && !w.closed) { w.document.write(html); w.document.close(); showToast('✅ Report opened. Press Ctrl+P → Save as PDF'); }
+            else { var blob = new Blob([html], { type: 'text/html;charset=utf-8;' }); var url = URL.createObjectURL(blob); var a = document.createElement('a'); a.href = url; a.download = 'report_' + student.name.replace(/\s+/g, '_') + '.html'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); showToast('⚠️ Popup blocked. HTML report downloaded instead.'); }
+          }
+        } catch (err) { console.error(err); showToast('❌ Generation failed: ' + err.message, 'error'); }
+      };
+	  // =========================================
+      // SUBJECT GRID & CRUD
+      // =========================================
+      window.renderGrid = function(cid, sel, isAL, combo) {
+        var c = document.getElementById(cid); if (!c) return;
+        var sub = isAL ? curriculum.aLevelPrincipals : curriculum.oLevel;
+        var h = '<div class="flex-between" style="margin-bottom:12px"><h4 style="margin:0;font-size:15px">📚 Select Subjects</h4><div class="flex" style="gap:8px"><button onclick="window.selAll(\'' + cid + '\')" class="btn-info" style="padding:6px 12px;font-size:12px;margin:0" type="button">✅ Select All</button><button onclick="window.selNone(\'' + cid + '\')" class="btn-danger" style="padding:6px 12px;font-size:12px;margin:0" type="button">❌ Clear All</button></div></div><div class="subject-grid" id="' + cid + '_grid">';
+        for (var i = 0; i < sub.length; i++) { var s = sub[i], chk = sel.indexOf(s) > -1 ? 'checked' : ''; h += '<div class="subject-item ' + (chk ? 'selected' : '') + '" onclick="window.tog(this)"><input type="checkbox" value="' + s + '" ' + chk + '><span>' + s + '</span></div>'; }
+        h += '</div>';
+        if (isAL) {
+          var subs = window.calculateSubsidiaries(sel);
+          h += '<hr style="margin:16px 0"><h4 style="margin-bottom:10px;font-size:14px">📖 Auto Subsidiaries (≥60 = 1pt)</h4><div class="subject-grid" style="max-height:110px">';
+          for (var j = 0; j < subs.length; j++) h += '<div class="subject-item selected" style="cursor:default;opacity:0.85"><input type="checkbox" value="' + subs[j] + '" checked disabled><span>' + subs[j] + '</span></div>';
+          h += '</div><input type="hidden" id="' + cid + '_subs" value=\'' + JSON.stringify(subs) + '\'>';
+        }
+        c.innerHTML = h;
+      };
+      window.tog = function(el) { var cb = el.querySelector('input'); cb.checked = !cb.checked; el.classList.toggle('selected', cb.checked); };
+      window.selAll = function(id) { document.querySelectorAll('#' + id + '_grid input').forEach(c => c.checked = true); document.querySelectorAll('#' + id + '_grid .subject-item').forEach(c => c.classList.add('selected')); };
+      window.selNone = function(id) { document.querySelectorAll('#' + id + '_grid input').forEach(c => c.checked = false); document.querySelectorAll('#' + id + '_grid .subject-item').forEach(c => c.classList.remove('selected')); };
+      window.getGridData = function(id) {
+        var pr = [], subs = [];
+        var ck = document.querySelectorAll('#' + id + '_grid input:checked:not([disabled])');
+        for (var i = 0; i < ck.length; i++) pr.push(ck[i].value);
+        var hid = document.getElementById(id + '_subs'); if (hid) subs = JSON.parse(hid.value);
+        return { pr: pr, subs: subs };
+      };
+
+      window.addStudent = function() {
+        var m = document.createElement('div'); m.className = 'modal';
+        m.innerHTML = '<div class="modal-content"><h3>➕ Add New Student</h3><input id="aName" placeholder="Full Name"><input id="aPh" placeholder="Phone Number"><select id="aCl"><option value="">-- Select Class --</option><option>Senior 1</option><option>Senior 2</option><option>Senior 3</option><option>Senior 4</option><option>Senior 5</option><option>Senior 6</option></select><div id="aGrid"></div><div class="flex" style="margin-top:16px"><button id="aSave" class="btn-success" type="button">✅ Register</button><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Cancel</button></div></div>';
+        document.body.appendChild(m);
+        document.getElementById('aCl').onchange = function() {
+          var al = (this.value === 'Senior 5' || this.value === 'Senior 6');
+          if (al) { var cmb = prompt('Combination (PCM, MEG, etc.):', 'PCM') || 'PCM'; window.renderGrid('aGrid', predefinedCombos[cmb] || [], true, cmb); m.dataset.c = cmb; }
+          else window.renderGrid('aGrid', curriculum.oLevel, false, '');
+        };
+        document.getElementById('aSave').onclick = function() {
+          var n = document.getElementById('aName').value.trim(), ph = document.getElementById('aPh').value.trim(), cl = document.getElementById('aCl').value;
+          if (!n || !ph || !cl) { showToast('Please fill all fields', 'error'); return; }
+          for (var i = 0; i < students.length; i++) if (students[i].phone === ph) { showToast('Phone already exists', 'error'); return; }
+          var al = (cl === 'Senior 5' || cl === 'Senior 6'), d = window.getGridData('aGrid');
+          students.push({ id: nextStudentId++, name: n, phone: ph, class: cl, combination: al ? m.dataset.c : '', isCandidate: (cl === 'Senior 4' || cl === 'Senior 6'), subjects: d.pr, subsidiaries: d.subs, password: '', results: [], reports: [], alerts: [], joinDate: new Date().toISOString().slice(0, 10), image: '' });
+          safeSave(); renderStudents('stab'); renderStudents('dosStab'); renderStudents('tchStab'); renderStudents('ctStab'); showToast('✅ Student added');
+        };
+      };
+
+      window.editSt = function(id) {
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id === id) s = students[i]; if (!s) return;
+        var al = (s.class === 'Senior 5' || s.class === 'Senior 6');        var m = document.createElement('div'); m.className = 'modal';
+        m.innerHTML = '<div class="modal-content"><h3>✏️ Edit Student</h3><input id="eN" value="' + window.escapeHtml(s.name) + '" placeholder="Name"><input id="eP" value="' + window.escapeHtml(s.phone) + '" placeholder="Phone"><select id="eCl"><option>Senior 1</option><option>Senior 2</option><option>Senior 3</option><option>Senior 4</option><option>Senior 5</option><option>Senior 6</option></select><div id="eGrid"></div><div class="flex" style="margin-top:16px"><button id="eS" class="btn-success" type="button">✅ Save Changes</button><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Cancel</button></div></div>';
+        document.body.appendChild(m); document.getElementById('eCl').value = s.class;
+        window.renderGrid('eGrid', s.subjects.concat(s.subsidiaries), al, s.combination || '');
+        document.getElementById('eS').onclick = function() {
+          s.name = document.getElementById('eN').value; s.phone = document.getElementById('eP').value; s.class = document.getElementById('eCl').value;
+          s.isCandidate = (s.class === 'Senior 4' || s.class === 'Senior 6');
+          var d = window.getGridData('eGrid'); s.subjects = d.pr; s.subsidiaries = d.subs;
+          safeSave(); m.remove(); renderStudents('stab'); renderStudents('dosStab'); renderStudents('tchStab'); renderStudents('ctStab'); showToast('✅ Updated');
+        };
+      };
+
+      window.delSt = function(id) { if (confirm('Permanently delete student?')) { students = students.filter(s => s.id !== id); safeSave(); renderStudents('stab'); renderStudents('dosStab'); renderStudents('tchStab'); renderStudents('ctStab'); showToast('✅ Deleted'); } };
+      window.uploadImg = function(id) {
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id === id) s = students[i];
+        var i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*';
+        i.onchange = function(e) {
+          var f = e.target.files[0]; if (!f) { showToast('No image', 'error'); return; }
+          var r = new FileReader(); r.onload = function(ev) { s.image = ev.target.result; safeSave(); renderStudents('stab'); renderStudents('dosStab'); renderStudents('tchStab'); renderStudents('ctStab'); showToast('✅ Photo uploaded'); };
+          try { r.readAsDataURL(f); } catch (e) { showToast('File blocked by viewer', 'error'); }
+        }; try { i.click(); } catch (e) { showToast('Upload not supported', 'error'); }
+      };
+
+      window.viewReps = function(id) {
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id === id) s = students[i]; if (!s) return;
+        var h = '<h3>📄 Reports: ' + window.escapeHtml(s.name) + '</h3>';
+        if (!s.reports || !s.reports.length) h += '<div class="result-card">📂 No reports uploaded</div>';
+        else { h += '<div class="flex">'; for (var j = 0; j < s.reports.length; j++) { var r = s.reports[j]; h += '<div class="report-card"><strong>📄 ' + window.escapeHtml(r.fn) + '</strong><br><small>' + r.d + '</small><br><button onclick="window.dlR(\'' + s.id + '\',' + r.id + ')" class="btn-primary" style="margin-top:8px" type="button">⬇ Download</button></div>'; } h += '</div>'; }
+        h += '<div class="text-center" style="margin-top:16px"><button onclick="this.closest(\'.modal\').remove()" class="btn-primary" type="button">Close</button></div>';
+        var m = document.createElement('div'); m.className = 'modal'; m.innerHTML = '<div class="modal-content" style="max-width:600px">' + h + '</div>'; document.body.appendChild(m);
+      };
+      window.dlR = function(sid, rid) { var s = null, r = null; for (var i = 0; i < students.length; i++) if (students[i].id == sid) s = students[i]; if (!s) return; for (var j = 0; j < s.reports.length; j++) if (s.reports[j].id == rid) r = s.reports[j]; if (r) { var a = document.createElement('a'); a.href = r.fd; a.download = r.fn; try { a.click(); } catch (e) { showToast('Download blocked', 'error'); } } };
+      window.alertSt = function(id) { var s = null; for (var i = 0; i < students.length; i++) if (students[i].id === id) s = students[i]; var m = prompt('🚨 Message for ' + s.name + ':'); if (!m) return; if (!s.alerts) s.alerts = []; s.alerts.push({ m: m, d: new Date().toLocaleString() }); safeSave(); showToast('🚨 Alert sent'); };
+
+      // =========================================
+      // MARKS ENTRY & RESULTS
+      // =========================================
+      window.enterMarks = function() {
+        var sid = prompt('Student ID:'); if (!sid) return;
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id == sid) s = students[i]; if (!s) { showToast('Not found', 'error'); return; }
+        var sub = window.getStudentSubjects(s); if (!sub || !sub.length) { showToast('No subjects', 'error'); return; }
+        var m = document.createElement('div'); m.className = 'modal';
+        var h = '<h3>📝 Enter Marks - ' + window.escapeHtml(s.name) + '</h3><p style="color:#64748b;font-size:13px;margin-bottom:10px">' + s.class + ' ' + (s.combination ? '• ' + s.combination : '') + ' | ' + currentPeriod.phase + ' • Term ' + currentPeriod.term + ' • ' + currentPeriod.year + '</p><div style="max-height:40vh;overflow-y:auto;background:#f9fafb;border:2px solid #e5e7eb;border-radius:12px;padding:12px">';
+        for (var i = 0; i < sub.length; i++) {
+          var isSub = false; for (var j = 0; j < curriculum.aLevelSubsidiaries.length; j++) if (curriculum.aLevelSubsidiaries[j] === sub[i]) isSub = true;
+          h += '<div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><span style="font-weight:600;font-size:13px;width:130px">' + sub[i] + ' ' + (isSub ? '<small style="color:#3b82f6">(≥60=1pt)</small>' : '') + '</span><input id="mk' + i + '" type="number" min="0" max="100" style="width:70px;text-align:center"><span id="gd' + i + '" style="width:45px"></span></div>';
+        }
+        h += '</div><div class="flex" style="margin-top:10px"><button id="cBtn" class="btn-warning" type="button">📊 Calculate</button><button id="sBtn" class="btn-success" type="button">✅ Save</button><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Cancel</button></div><div id="cRes" style="margin-top:8px;padding:8px;background:#fff;border:2px solid #e5e7eb;border-radius:8px;font-size:13px"></div>';
+        m.innerHTML = '<div class="modal-content" style="max-width:400px">' + h + '</div>'; document.body.appendChild(m);
+        for (var j = 0; j < sub.length; j++) {
+          (function(idx, subj) { document.getElementById('mk' + idx).oninput = function() { var v = parseInt(this.value) || 0; var g = window.getSubjectPoints(subj, v); document.getElementById('gd' + idx).innerHTML = '<span class="badge ' + g.class + '">' + g.pts + 'pts</span>'; }; })(j, sub[j]);
+        }
+        document.getElementById('cBtn').onclick = function() { var t = 0, c = 0, tp = 0; for (var i = 0; i < sub.length; i++) { var v = parseInt(document.getElementById('mk' + i).value) || 0; t += v; c++; tp += window.getSubjectPoints(sub[i], v).pts; } var a = (t / c).toFixed(1); document.getElementById('cRes').innerHTML = '<strong>Avg:</strong> ' + a + '% | <strong>Total Pts:</strong> ' + tp; };
+        document.getElementById('sBtn').onclick = function() {
+          var marks = [], tp = 0, totalM = 0;
+          for (var i = 0; i < sub.length; i++) { var mk = parseInt(document.getElementById('mk' + i).value) || 0; var g = window.getSubjectPoints(sub[i], mk); marks.push({ subject: sub[i], marks: mk, grade: g.grade, points: g.pts }); tp += g.pts; totalM += mk; }
+          var avg = (totalM / sub.length).toFixed(1); var pos = null;
+          if (s.class !== 'Senior 5' && s.class !== 'Senior 6') {
+            var cls = [], arr = [];
+            for (var k = 0; k < students.length; k++) if (students[k].class === s.class) cls.push(students[k]);
+            for (var k = 0; k < cls.length; k++) { var st = cls[k], t2 = 0; for (var r = 0; r < st.results.length; r++) { var res = st.results[r]; if (res.phase === currentPeriod.phase && res.term === currentPeriod.term && res.year === currentPeriod.year) for (var q = 0; q < res.marks.length; q++) t2 += window.getSubjectPoints(res.marks[q].subject, res.marks[q].marks).pts; } if (st.results.length) arr.push({ id: st.id, p: t2 }); }
+            arr.push({ id: s.id, p: tp }); arr.sort(function(a, b) { return a.p - b.p; }); for (var k = 0; k < arr.length; k++) if (arr[k].id === s.id) { pos = k + 1; break; }
+          }
+          var res = { id: Date.now(), year: currentPeriod.year, term: currentPeriod.term, phase: currentPeriod.phase, marks: marks, totalMarks: totalM, average: parseFloat(avg), points: tp, position: pos };
+          if (!s.results) s.results = []; s.results.push(res); safeSave(); showToast('✅ Saved\n' + s.name + ' • ' + avg + '% • ' + tp + 'pts' + (pos ? ' • Pos:' + pos : '')); m.remove();
+        };
+      };
+
+      window.viewResults = function(id) {
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id === id) s = students[i]; if (!s) return;
+        var h = '<h3>📊 Academic Results: ' + window.escapeHtml(s.name) + '</h3>', isAL = (s.class === 'Senior 5' || s.class === 'Senior 6');
+        if (!s.results || !s.results.length) h += '<div class="result-card">📭 None recorded</div>';
+        else {
+          var by = {}; for (var i = 0; i < s.results.length; i++) { var r = s.results[i]; if (!by[r.year]) by[r.year] = []; by[r.year].push(r); }
+          var yrs = Object.keys(by).sort().reverse();
+          for (var j = 0; j < yrs.length; j++) {
+            h += '<h4 style="margin:12px 0 6px">📅 ' + yrs[j] + '</h4>';
+            for (var k = 0; k < by[yrs[j]].length; k++) {
+              var r = by[yrs[j]][k], cl = isAL ? (r.points >= 3 ? 'pts-' + (7 - r.points) : 'pts-6') : 'pts-' + r.points;
+              h += '<div class="result-card"><div class="flex-between"><b>' + r.phase + ' • T' + r.term + '</b><span class="badge ' + cl + '">' + r.points + 'pts</span></div><p>Avg: ' + r.average + '% | Pos: ' + (r.position || 'N/A') + '</p><table class="marks-table"><tr><th>Subject</th><th>Marks</th><th>Grade</th><th>Pts</th></tr>';
+              for (var q = 0; q < r.marks.length; q++) { var m = r.marks[q], g = window.getSubjectPoints(m.subject, m.marks); h += '<tr><td>' + m.subject + '</td><td>' + m.marks + '</td><td><span class="badge ' + g.class + '">' + g.grade + '</span></td><td>' + g.pts + '</td></tr>'; }
+              h += '</table></div>';
+            }
+          }
+        }
+        h += '<div class="text-center" style="margin-top:16px"><button onclick="this.closest(\'.modal\').remove()" class="btn-primary" type="button">🔙 Close</button></div>';
+        var mo = document.createElement('div'); mo.className = 'modal'; mo.innerHTML = '<div class="modal-content" style="max-width:700px">' + h + '</div>'; document.body.appendChild(mo);
+      };
+
+      // =========================================
+      // GRAPH, ANNOUNCEMENTS & CSV
+      // =========================================
+      window.showGraph = function(id) {
+        var s = null; for (var i = 0; i < students.length; i++) if (students[i].id == id) s = students[i]; if (!s || !s.results || s.results.length < 2) { showToast('Need 2+ results', 'error'); return; }
+        var sorted = s.results.slice().sort(function(a, b) { return a.year - b.year || a.term - b.term; }), W = 380, H = 220, P = 40, step = (W - P * 2) / (sorted.length - 1);
+        var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:520px">';
+        for (var i = 0; i <= 6; i++) { var y = P + (i / 6) * (H - P * 2); svg += '<line x1="' + P + '" y1="' + y + '" x2="' + (W - P) + '" y2="' + y + '" stroke="#e5e7eb"/><text x="' + (P - 8) + '" y="' + (y + 4) + '" font-size="10" fill="#6b7280">' + (6 - i) + '</text>'; }
+        var pathD = '', prevX = P, prevY = 0;
+        for (var i = 0; i < sorted.length; i++) {          var x = P + i * step, y = P + (1 - sorted[i].points / 6) * (H - P * 2), label = 'T' + sorted[i].term + '\'' + String(sorted[i].year).slice(2);
+          if (i === 0) { pathD += 'M' + x + ',' + y; prevX = x; prevY = y; } else { var dx = (x - prevX) / 3; pathD += 'C' + (prevX + dx) + ',' + prevY + ',' + (x - dx) + ',' + y + ',' + x + ',' + y; }
+          svg += '<circle cx="' + x + '" cy="' + y + '" r="5" fill="#3b82f6" stroke="#fff" stroke-width="2"/><text x="' + x + '" y="' + (y - 10) + '" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="bold">' + sorted[i].points + '</text><text x="' + x + '" y="' + (H - 14) + '" text-anchor="middle" font-size="10" fill="#4b5563">' + label + '</text>';
+          prevX = x; prevY = y;
+        }
+        svg += '<path d="' + pathD + '" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>';
+        svg += '</svg><div class="graph-legend"><div class="legend-item"><div class="legend-color" style="background:#3b82f6"></div><span>Points Trend</span></div></div>';
+        var h = '<h3>📈 Performance Curve</h3><div class="graph-container">' + svg + '</div><div class="text-center"><button onclick="this.closest(\'.modal\').remove()" class="btn-primary" type="button">🔙 Close</button></div>';
+        var mo = document.createElement('div'); mo.className = 'modal'; mo.innerHTML = '<div class="modal-content" style="max-width:560px">' + h + '</div>'; document.body.appendChild(mo);
+      };
+
+      window.postAnn = function() { var t = document.getElementById('ac').value, ti = document.getElementById('at').value.trim(), bo = document.getElementById('ab').value.trim(); if (!ti || !bo) { showToast('Fill title & message', 'error'); return; } announcements.unshift({ id: Date.now(), title: ti, body: bo, target: t, d: new Date().toLocaleString() }); safeSave(); document.getElementById('at').value = ''; document.getElementById('ab').value = ''; renderAnn(); showToast('✅ Published'); };
+      function renderAnn() { var c = document.getElementById('anl'); if (!announcements.length) { c.innerHTML = '<div class="card"><p>📭 None posted</p></div>'; return; } var h = '<div class="card"><h3>📢 Announcements</h3>'; for (var i = 0; i < announcements.length; i++) { var a = announcements[i]; h += '<div class="announce-card"><div class="flex-between"><strong>' + window.escapeHtml(a.title) + '</strong><button onclick="window.delAnn(' + a.id + ')" class="btn-danger" type="button">🗑️ Delete</button></div><small>🎯 ' + a.target + ' | 📅 ' + a.d + '</small><p style="margin-top:6px">' + window.escapeHtml(a.body) + '</p></div>'; } h += '</div>'; c.innerHTML = h; }
+      window.delAnn = function(id) { announcements = announcements.filter(a => a.id !== id); safeSave(); renderAnn(); showToast('✅ Deleted'); };
+
+      window.csvImport = function() {
+        var mo = document.createElement('div'); mo.className = 'modal'; mo.innerHTML = '<div class="modal-content"><h3>📥 Import CSV</h3><p style="font-size:12px;color:#64748b;margin:6px 0">Format: Name,Phone,Class,Subjects(comma),Combo</p><input type="file" id="csvI" accept=".csv"><div class="flex" style="margin-top:10px"><button id="csvBtn" class="btn-success" type="button">✅ Import</button><button onclick="this.closest(\'.modal\').remove()" class="btn-danger" type="button">Cancel</button></div></div>'; document.body.appendChild(mo);
+        document.getElementById('csvBtn').onclick = function() {
+          var f = document.getElementById('csvI').files[0]; if (!f) { showToast('Select file', 'error'); return; }
+          var r = new FileReader(); r.onload = function(e) {
+            var ls = e.target.result.split('\n').filter(l => l.trim()), im = 0;
+            for (var i = 1; i < ls.length; i++) { var p = ls[i].split(','); if (p.length < 4) continue; var n = p[0].trim(), ph = p[1].trim(), cl = p[2].trim(), ss = p[3].replace(/"/g, '').split(',').map(x => x.trim()), cm = p[4] ? p[4].trim() : ''; var al = (cl === 'Senior 5' || cl === 'Senior 6'), subs = al ? window.calculateSubsidiaries(ss) : []; students.push({ id: nextStudentId++, name: n, phone: ph, class: cl, combination: al ? cm : '', isCandidate: (cl === 'Senior 4' || cl === 'Senior 6'), subjects: ss, subsidiaries: subs, password: '', results: [], reports: [], alerts: [], joinDate: new Date().toISOString().slice(0, 10), image: '' }); im++; }
+            safeSave(); mo.remove(); renderStudents('stab'); showToast('✅ Imported ' + im);
+          }; try { r.readAsText(f); } catch (e) { showToast('CSV blocked', 'error'); }
+        };
+      };
+
+      window.csvExport = function() {
+        var c = 'ID,Name,Phone,Class,Combo,Subjects,Subs\n';
+        for (var i = 0; i < students.length; i++) { var s = students[i]; c += s.id + ',' + s.name + ',' + s.phone + ',' + s.class + ',' + (s.combination || 'N/A') + ',"' + (s.subjects || []).join('|') + '","' + (s.subsidiaries || []).join('|') + '"\n'; }
+        var b = new Blob([c], { type: 'text/csv' }), u = URL.createObjectURL(b), a = document.createElement('a'); a.href = u; a.download = 'schoolhub.csv'; try { a.click(); showToast('✅ Exported'); } catch (e) { showToast('Download blocked', 'error'); }
+      };
+
+      // =========================================
+      // STUDENT DASHBOARD (FIXED)
+      // =========================================
+      function showStudentDash() {
+        var s = currentUser.data;
+        if (!s) { showToast('❌ Session lost. Please login again.', 'error'); showLogin(); return; }
+        document.getElementById('app').innerHTML = '<div class="card" id="stCard"><div class="flex-between"><h2>🎓 Dashboard</h2><button onclick="window.logout()" class="btn-danger" type="button">🚪 Sign Out</button></div><div class="profile-card"><div class="flex">' + (s.image ? '<img src="' + s.image + '" style="width:60px;height:60px">' : '<div style="width:60px;height:60px;background:#e5e7eb;border-radius:50%;display:flex;align-items:center;justify-content:center">👤</div>') + '<div><strong>🆔 #' + s.id + '</strong><br>👤 ' + window.escapeHtml(s.name) + '<br>📞 ' + window.escapeHtml(s.phone) + ' | 📚 ' + s.class + '<br>📅 Joined: ' + s.joinDate + '<br>' + (s.combination ? '🔹 Combo: ' + s.combination : '') + '</div></div></div><div class="flex-between"><h3>🚨 Alerts</h3></div><div id="alL"></div><div class="flex-between"><h3>📊 Results</h3><button onclick="window.showGraph(' + s.id + ')" class="btn-warning" style="margin:0" type="button">📈 Graph</button></div><div id="rsL"></div><div class="flex-between"><h3>📄 Reports</h3><button onclick="window.generateReport(' + s.id + ')" class="btn-success" style="margin:0" type="button">📥 Download Report</button></div><div id="rpL"></div><div><h3>📢 Announcements</h3><div id="anL"></div></div></div>';
+        addBadge('stCard');
+        document.getElementById('alL').innerHTML = (s.alerts || []).map(x => '<div class="alert-card"><strong>⚠️ ' + window.escapeHtml(x.m) + '</strong><br><small>📅 ' + x.d + '</small></div>').join('') || '<div class="profile-card">✅ None</div>';
+        var isAL = (s.class === 'Senior 5' || s.class === 'Senior 6');
+        document.getElementById('rsL').innerHTML = !(s.results || []).length ? '<div class="profile-card">📭 None</div>' : s.results.slice().reverse().map(r => {
+          var cl = isAL ? (r.points >= 3 ? 'pts-' + (7 - r.points) : 'pts-6') : 'pts-' + r.points;
+          return '<div class="result-card"><div class="flex-between"><b>' + r.phase + ' • T' + r.term + '</b><span class="badge ' + cl + '">' + r.points + 'pts</span></div><p>Avg: ' + r.average + '% | Pos: ' + (r.position || 'N/A') + '</p><table class="marks-table"><tr><th>Subject</th><th>Marks</th><th>Grade</th><th>Pts</th></tr>' + r.marks.map(m => { var g = window.getSubjectPoints(m.subject, m.marks); return '<tr><td>' + m.subject + '</td><td>' + m.marks + '</td><td><span class="badge ' + g.class + '">' + g.grade + '</span></td><td>' + g.pts + '</td></tr>'; }).join('') + '</table></div>';
+        }).join('');
+        document.getElementById('rpL').innerHTML = !(s.reports || []).length ? '<div class="profile-card">📂 None</div>' : s.reports.map(r => '<div class="report-card"><b>📄 ' + window.escapeHtml(r.fn) + '</b><br><small>' + r.d + '</small><br><button onclick="window.dlRMy(' + r.id + ')" class="btn-primary" style="margin-top:6px" type="button">⬇ Download</button></div>').join('');
+        document.getElementById('anL').innerHTML = announcements.filter(a => a.target === 'all' || a.target === s.class).map(a => '<div class="announce-card"><strong>📢 ' + window.escapeHtml(a.title) + '</strong><br><small>📅 ' + a.d + '</small><p style="margin-top:4px">' + window.escapeHtml(a.body) + '</p></div>').join('') || '<div class="profile-card">📭 None</div>';
+      }      window.dlRMy = function(id) { var r = currentUser.data.reports.find(x => x.id == id); if (r) { var a = document.createElement('a'); a.href = r.fd; a.download = r.fn; try { a.click(); } catch (e) { showToast('Download blocked', 'error'); } } };
+
+      // =========================================
+      // INIT
+      // =========================================
+      safeLoad(); showLogin();
+    })();
+  </script>
+</body>
+</html>
